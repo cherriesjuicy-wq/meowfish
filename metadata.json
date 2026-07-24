@@ -1,0 +1,6 @@
+{
+  "name": "Tiệm Cá Khô 2026",
+  "description": "Cửa hàng cá khô phong cách Kawaii Glassmorphism Nhật Bản cực kỳ dễ thương",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
