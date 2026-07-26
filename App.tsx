@@ -1,3 +1,4 @@
+import { AdminPanel } from './components/AdminPanel';
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Facebook, Sparkles, Heart, Coins, ArrowRight, Search, Sparkle, RefreshCw, Key, AlertTriangle, Check, ShieldAlert, Settings, X } from 'lucide-react';
@@ -1538,6 +1539,16 @@ export default function App() {
                 )}
               </motion.div>
             )}
+            {isAdminUnlocked && (
+              <AdminPanel 
+               characterLink={characterLink}
+               setCharacterLink={setCharacterLink}
+               isLinkActive={isLinkActive}
+               setIsLinkActive={setIsLinkActive}
+               />
+             )}
+            
+            
 
             {/* Admin Dashboard Content - display: none by default, block when unlocked */}
             <div
@@ -1557,14 +1568,23 @@ export default function App() {
                   </span>
                   <button
                     onClick={() => {
-                      setIsAdminUnlocked(false);
-                      setAdminPasswordInput('');
+                      if (!isLinkActive) {
+                        alert('🔒 Chức năng link GG AI Studio hiện đang tạm khóa miêu~!');
+                        return;
+                      }
+                      if (!characterLink) {
+                        alert('⚠️ Chưa cài đặt đường link trong Admin Panel!');
+                        return;
+                      }
+                      window.open(characterLink, '_blank');
                     }}
-                    className="text-[10px] text-emerald-600 hover:text-emerald-800 bg-white border border-emerald-100 rounded-full py-1 px-3 font-semibold hover:scale-103 active:scale-97 transition-all cursor-pointer"
+                    style={{
+                      opacity: isLinkActive ? 1 : 0.6,
+                      cursor: isLinkActive ? 'pointer' : 'not-allowed',
+                    }}
                   >
-                    Khóa lại 🔒
+                    {isLinkActive ? '✨ Mở Link AI Studio' : '🔒 Link AI Studio (Đã khóa)'}
                   </button>
-                </div>
 
                  {/* Stats Cards */}
                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
@@ -1751,6 +1771,13 @@ export default function App() {
           </div>
         </footer>
       )}
+      const [characterLink, setCharacterLink] = useState(() => {
+    return localStorage.getItem('char_ai_link') || 'https://aistudio.google.com';
+  });
+  const [isLinkActive, setIsLinkActive] = useState(() => {
+    const saved = localStorage.getItem('char_ai_active');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
     </div>
   );
 }
