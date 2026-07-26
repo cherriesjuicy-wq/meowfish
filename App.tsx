@@ -49,7 +49,13 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isChiming, setIsChiming] = useState(false);
   const [goldCoins, setGoldCoins] = useState<number>(20); // start with 20 golden fish coins
-  
+  const [characterLink, setCharacterLink] = useState(() => {
+    return localStorage.getItem('char_ai_link') || 'https://aistudio.google.com';
+  });
+  const [isLinkActive, setIsLinkActive] = useState(() => {
+    const saved = localStorage.getItem('char_ai_active');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
   // Floating decorations for the home screen
   const [floaters, setFloaters] = useState<FloatingDecoration[]>([]);
   
@@ -1771,13 +1777,6 @@ export default function App() {
           </div>
         </footer>
       )}
-      const [characterLink, setCharacterLink] = useState(() => {
-    return localStorage.getItem('char_ai_link') || 'https://aistudio.google.com';
-  });
-  const [isLinkActive, setIsLinkActive] = useState(() => {
-    const saved = localStorage.getItem('char_ai_active');
-    return saved !== null ? JSON.parse(saved) : true;
-  });
     </div>
   );
 }
